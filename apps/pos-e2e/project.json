@@ -1,0 +1,26 @@
+{
+  "name": "pos-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/pos-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/pos-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "pos:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "pos:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["pos"]
+}
