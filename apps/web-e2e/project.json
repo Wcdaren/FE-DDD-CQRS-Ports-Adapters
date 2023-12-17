@@ -4,10 +4,16 @@
   "sourceRoot": "apps/web-e2e/src",
   "targets": {
     "e2e": {
-      "executor": "@nx/playwright:playwright",
-      "outputs": ["{workspaceRoot}/dist/.playwright/apps/web-e2e"],
+      "executor": "@nx/cypress:cypress",
       "options": {
-        "config": "apps/web-e2e/playwright.config.ts"
+        "cypressConfig": "apps/web-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "web:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "web:serve:production"
+        }
       }
     },
     "lint": {
@@ -15,5 +21,6 @@
       "outputs": ["{options.outputFile}"]
     }
   },
+  "tags": [],
   "implicitDependencies": ["web"]
 }
