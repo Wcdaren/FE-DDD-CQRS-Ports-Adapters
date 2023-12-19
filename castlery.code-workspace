@@ -7,5 +7,10 @@
 			"path": "apps/pos"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"cSpell.words": [
+			"clsx",
+			"upsert"
+		]
+	}
 }

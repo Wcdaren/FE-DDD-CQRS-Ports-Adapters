@@ -1,71 +1,61 @@
-'use client'
-
-/* Core */
-import { useState } from 'react'
-
-/* Instruments */
-import {
-  counterSlice,
-  useSelector,
-  useDispatch,
-  selectCount,
-  incrementAsync,
-  incrementIfOddAsync,
-} from '@/lib/redux'
+import { EntityId } from '@reduxjs/toolkit'
+import { memo } from 'react'
+// import { counterActions, counterSelectors } from '../../services/counter/slice'
+// import { useAppDispatch, useAppSelector } from '../../store'
 import styles from './counter.module.css'
+import clsx from 'clsx'
+import { counterActions, counterSelectors, useAppDispatch, useAppSelector } from '@/lib/redux'
 
-export const Counter = () => {
-  const dispatch = useDispatch()
-  const count = useSelector(selectCount)
-  const [incrementAmount, setIncrementAmount] = useState(2)
+export interface CounterProps {
+  counterId: EntityId
+}
+
+const intervalMs = 1_000
+const delayMs = 2_000
+
+export const Counter = memo(function Counter({ counterId }: CounterProps) {
+  const counter = useAppSelector((state) => counterSelectors.selectById(state, counterId))
+  const appDispatch = useAppDispatch()
+
+  if (!counter) {
+    return null
+  }
+
+  const { id, value } = counter
+
+  const add = () => appDispatch(counterActions.updateBy({ id, delta: +1 }))
+  const subtract = () => appDispatch(counterActions.updateBy({ id, delta: -1 }))
+  const close = () => appDispatch(counterActions.removeCounter(id))
+  const updateAsync = () => appDispatch(counterActions.updateByAsync({ id, delayMs, delta: 1 }))
+  const intervalUpdate = () => {
+    if (counter.intervalMs) {
+      appDispatch(counterActions.cancelAsyncUpdates(id))
+    } else {
+      appDispatch(counterActions.updateByPeriodically({ id, delta: 1, intervalMs }))
+    }
+  }
 
   return (
-    <div>
-      <div className={styles.row}>
-        <button
-          className={styles.button}
-          aria-label="Decrement value"
-          onClick={() => dispatch(counterSlice.actions.decrement())}
-        >
-          -
-        </button>
-        <span className={styles.value}>{count}</span>
-        <button
-          className={styles.button}
-          aria-label="Increment value"
-          onClick={() => dispatch(counterSlice.actions.increment())}
-        >
+    <section className={clsx('paper', styles.wrapper)}>
+      <button type="button" className={styles.closeBtn} aria-label="close" title="close" onClick={close}>
+        &times;
+      </button>
+      <h4>ID: {id}</h4>
+      <strong className={clsx(styles.counterValue, 'badge')}>{value}</strong>
+      <div className={styles.btnGroup}>
+        <button className="btn-small" type="button" onClick={add}>
           +
         </button>
-      </div>
-      <div className={styles.row}>
-        <input
-          className={styles.textbox}
-          aria-label="Set increment amount"
-          value={incrementAmount}
-          onChange={(e) => setIncrementAmount(Number(e.target.value ?? 0))}
-        />
-        <button
-          className={styles.button}
-          onClick={() =>
-            dispatch(counterSlice.actions.incrementByAmount(incrementAmount))
-          }
-        >
-          Add Amount
+        <button className="btn-small" type="button" onClick={subtract}>
+          -
         </button>
-        <button
-          className={styles.asyncButton}
-          onClick={() => dispatch(incrementAsync(incrementAmount))}
-        >
-          Add Async
+        <button className="btn-small" type="button" onClick={intervalUpdate}>
+          {counter.intervalMs ? `stop periodic update` : `+1 every ${intervalMs / 1_000}s`}
         </button>
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementIfOddAsync(incrementAmount))}
-        >
-          Add If Odd
+        <button className="btn-small" onClick={updateAsync}>
+          +1 after {`${delayMs / 1000}s`}
         </button>
       </div>
-    </div>
+    </section>
   )
-}
+})
