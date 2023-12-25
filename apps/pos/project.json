@@ -23,11 +23,13 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "pos:build",
+        "port": 6061,
         "dev": true
       },
       "configurations": {
         "development": {
           "buildTarget": "pos:build:development",
+          "port": 6061,
           "dev": true
         },
         "production": {

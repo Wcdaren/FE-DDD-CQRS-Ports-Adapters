@@ -17,7 +17,29 @@
     "paths": {
       "@castlery/fortress": ["libs/fortress/src/index.ts"],
       "@castlery/fortress/server": ["libs/fortress/src/server.ts"],
-      "@castlery/modules/order": ["libs/modules/order/src/index.ts"]
+      "@castlery/modules/counter/components": [
+        "libs/modules/counter/components/src/index.ts"
+      ],
+      "@castlery/modules/counter/domain": [
+        "libs/modules/counter/domain/src/index.ts"
+      ],
+      "@castlery/modules/counter/service": [
+        "libs/modules/counter/service/src/index.ts"
+      ],
+      "@castlery/modules/order/domain": [
+        "libs/modules/order/domain/src/index.ts"
+      ],
+      "@castlery/modules/order/service": [
+        "libs/modules/order/service/src/index.ts"
+      ],
+      "@castlery/modules/user/domain": [
+        "libs/modules/user/domain/src/index.ts"
+      ],
+      "@castlery/modules/user/service": [
+        "libs/modules/user/service/src/index.ts"
+      ],
+      "@castlery/shared/redux/pos": ["libs/shared/redux/pos/src/index.ts"],
+      "@castlery/shared/redux/web": ["libs/shared/redux/web/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

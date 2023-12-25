@@ -1,10 +1,9 @@
 /* Components */
-import { Providers } from '@/lib/providers'
-import { Nav } from './components/Nav'
 
 /* Instruments */
-import styles from './styles/layout.module.css'
-import './styles/globals.css'
+import styles from './styles/layout.module.css';
+import './styles/globals.css';
+import { Providers } from '../lib/providers';
 
 export default function RootLayout(props: React.PropsWithChildren) {
   return (
@@ -12,7 +11,7 @@ export default function RootLayout(props: React.PropsWithChildren) {
       <html lang="en">
         <body>
           <section className={styles.container}>
-            <Nav />
+            {/* <Nav /> */}
 
             {/* <header className={styles.header}>
               <img src="/logo.svg" className={styles.logo} alt="logo" />
@@ -20,7 +19,7 @@ export default function RootLayout(props: React.PropsWithChildren) {
 
             <main className={styles.main}>{props.children}</main>
 
-            <footer className={styles.footer}>
+            {/* <footer className={styles.footer}>
               <span>Learn </span>
               <a className={styles.link} href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
                 React
@@ -37,10 +36,10 @@ export default function RootLayout(props: React.PropsWithChildren) {
               <a className={styles.link} href="https://react-redux.js.org/" target="_blank" rel="noopener noreferrer">
                 React Redux
               </a>
-            </footer>
+            </footer> */}
           </section>
         </body>
       </html>
     </Providers>
-  )
+  );
 }

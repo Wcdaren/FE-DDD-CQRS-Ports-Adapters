@@ -1,11 +1,11 @@
-'use client'
-
+'use client';
+import { makeStore } from '@castlery/shared/redux/pos';
 /* Core */
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+// import { makeStore } from './redux'
 
 /* Instruments */
-import { makeStore } from '@/lib/redux'
 
 export const Providers = (props: React.PropsWithChildren) => {
-  return <Provider store={makeStore}>{props.children}</Provider>
-}
+  return <Provider store={makeStore}>{props.children}</Provider>;
+};

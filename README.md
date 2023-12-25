@@ -61,3 +61,12 @@ Nx comes with local caching already built-in (check your `nx.json`). On CI you m
 - [Join the community](https://nx.dev/community)
 - [Subscribe to the Nx Youtube Channel](https://www.youtube.com/@nxdevtools)
 - [Follow us on Twitter](https://twitter.com/nxdevtools)
+
+
+
+## 生成一个新领域
+```sh
+npx nx g @nx/js:library --name=domain --unitTestRunner=jest --directory=libs/modules/counter --projectNameAndRootFormat=derived
+npx nx g @nx/js:library --name=service --unitTestRunner=jest --directory=libs/modules/counter --projectNameAndRootFormat=derived
+nx g @nx/react:library --name=components --directory=modules/counter --projectNameAndRootFormat=derived
+```
