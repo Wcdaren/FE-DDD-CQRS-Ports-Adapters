@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
 import { User } from '@castlery/modules/user/domain';
+import decorator from '@castlery/api-handler';
 // import { User } from '../domain/entity/user';
 // const baseUrl = `https://pos-test.castlery.sg/api/`;
 const baseUrl = process.env.NEXT_PUBLIC_API_HOST;
@@ -48,7 +49,16 @@ export const userApi = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 // export const { } = userApi;
-export const {
+// export const {
+//   endpoints: { createUser, getSalesUsers, getUser, login, updateUser },
+//   useCreateUserMutation,
+//   useGetSalesUsersQuery,
+//   useGetUserQuery,
+//   useLoginMutation,
+//   useUpdateUserMutation,
+// } = userApi;
+
+const {
   endpoints: { createUser, getSalesUsers, getUser, login, updateUser },
   useCreateUserMutation,
   useGetSalesUsersQuery,
@@ -56,3 +66,21 @@ export const {
   useLoginMutation,
   useUpdateUserMutation,
 } = userApi;
+
+// 使用 decorator 包装 useGetUserQuery
+const decoratedUseGetUserQuery = decorator(useGetUserQuery);
+const deCoratedUseLoginMutation = decorator(useLoginMutation);
+const decoratedUseCreateUserMutation = decorator(useCreateUserMutation);
+const decoratedUseGetSalesUsersQuery = decorator(useGetSalesUsersQuery);
+const decoratedUseUpdateUserMutation = decorator(useUpdateUserMutation);
+
+// 重新分配给相应的变量
+export const decoratedUserApi = {
+  endpoints: { 
+    createUser: decoratedUseCreateUserMutation,
+    getSalesUsers: decoratedUseGetSalesUsersQuery,
+    getUser: decoratedUseGetUserQuery,
+    login: deCoratedUseLoginMutation,
+    updateUser: decoratedUseUpdateUserMutation
+  },
+};

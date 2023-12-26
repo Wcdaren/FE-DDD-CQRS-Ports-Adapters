@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@castlery/api-handler": ["libs/api-handler/decorator.ts"],
       "@castlery/fortress": ["libs/fortress/src/index.ts"],
       "@castlery/fortress/server": ["libs/fortress/src/server.ts"],
       "@castlery/modules/counter/components": [
