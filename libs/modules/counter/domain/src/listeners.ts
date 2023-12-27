@@ -1,6 +1,6 @@
 import { UnknownAction, isAllOf, isAnyOf, PayloadAction, Unsubscribe } from '@reduxjs/toolkit'
-import type { AppListenerEffectAPI, AppStartListening } from '../../store'
 import { counterActions, counterSelectors } from './counterService'
+import type { AppListenerEffectAPI, AppStartListening } from '@castlery/shared/redux/pos'
 
 function shouldStopAsyncTasksOf(id: string) {
   return isAllOf(

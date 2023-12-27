@@ -4,22 +4,25 @@
 import styles from './styles/layout.module.css';
 import './styles/globals.css';
 import { Providers } from '../lib/providers';
+import { CssBaseline, CssVarsProvider } from '@mui/joy';
 
 export default function RootLayout(props: React.PropsWithChildren) {
   return (
-    <Providers>
-      <html lang="en">
-        <body>
-          <section className={styles.container}>
-            {/* <Nav /> */}
+    <html lang="en">
+      <body>
+        <div className={styles.container}>
+          {/* <Nav /> */}
 
-            {/* <header className={styles.header}>
+          {/* <header className={styles.header}>
               <img src="/logo.svg" className={styles.logo} alt="logo" />
             </header> */}
-
-            <main className={styles.main}>{props.children}</main>
-
-            {/* <footer className={styles.footer}>
+          <Providers>
+            <CssVarsProvider disableTransitionOnChange>
+              <CssBaseline />
+              <main className={styles.main}>{props.children}</main>
+            </CssVarsProvider>
+          </Providers>
+          {/* <footer className={styles.footer}>
               <span>Learn </span>
               <a className={styles.link} href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
                 React
@@ -37,9 +40,8 @@ export default function RootLayout(props: React.PropsWithChildren) {
                 React Redux
               </a>
             </footer> */}
-          </section>
-        </body>
-      </html>
-    </Providers>
+        </div>
+      </body>
+    </html>
   );
 }

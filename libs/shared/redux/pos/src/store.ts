@@ -13,6 +13,7 @@ import {
   type TypedUseSelectorHook,
 } from 'react-redux';
 import cookies from 'js-cookie';
+import type { CookiesStatic } from 'js-cookie';
 /* Instruments */
 import { reducer } from './rootReducer';
 import { middleware } from './middleware';
@@ -36,18 +37,21 @@ const preloadedState = {
   visibilityFilter: 'SHOW_COMPLETED',
 };
 
+const extraArgument = {
+  userApi: {
+    // [`${userApi.endpoints.login.name}`]: userApi.endpoints.login.initiate,
+    login: userApi.endpoints.login.initiate,
+  },
+  OrderApi: {},
+  country: 'AU',
+  cookies: cookies as CookiesStatic,
+};
 export const makeStore = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
-        extraArgument: {
-          userApi: {
-            ...userApi.endpoints,
-          },
-          country: 'AU',
-          cookies,
-        },
+        extraArgument,
       },
     })
       .prepend(listenerMiddlewareInstance.middleware)
@@ -64,6 +68,8 @@ export type AppStore = typeof makeStore;
 export type RootState = ReturnType<typeof makeStore.getState>;
 // @see https://redux-toolkit.js.org/usage/usage-with-typescript#getting-the-dispatch-type
 export type AppDispatch = typeof makeStore.dispatch;
+
+export type ExtraArgument = typeof extraArgument;
 
 export type AppListenerEffectAPI = ListenerEffectAPI<RootState, AppDispatch>;
 

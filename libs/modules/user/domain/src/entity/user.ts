@@ -1,3 +1,5 @@
+import { createReducer, createSlice } from '@reduxjs/toolkit';
+
 /**
  * id*	integer($int32)
 firstname*	string
@@ -23,3 +25,23 @@ export interface User {
   channel: Channel;
 }
 
+const initialState: User = {
+  id: 0,
+  firstname: '',
+  lastname: '',
+  email: '',
+  phone: '',
+  user_hash: '',
+  channel: Channel.web,
+};
+
+export const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    login: (state, action) => {
+      return action.payload;
+    },
+  },
+});
+export default userSlice;

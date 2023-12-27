@@ -1,12 +1,15 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { counterEntity } from './entity/Counter';
 
-export const counterSlice = createSlice({
+export const counterService = createSlice({
   name: 'counter',
   initialState: {
     counters: counterEntity.getInitialState(),
   },
   reducers: {
+    /* -------------------------------------------------------------------------- */
+    /*                                   command                                  */
+    /* -------------------------------------------------------------------------- */
     addCounter(
       state,
       { payload: { initialValue } }: PayloadAction<{ initialValue: number }>
@@ -65,12 +68,17 @@ export const counterSlice = createSlice({
   },
 });
 
-export const counterActions = counterSlice.actions;
-
-export type CounterSlice = {
-  [counterSlice.name]: ReturnType<(typeof counterSlice)['reducer']>;
-};
-
-export const counterSelectors = counterEntity.getSelectors<CounterSlice>(
-  (state) => state[counterSlice.name].counters
+export const counterActions = counterService.actions;
+/* -------------------------------------------------------------------------- */
+/*                                    read                                    */
+/* -------------------------------------------------------------------------- */
+export const counterSelectors = counterEntity.getSelectors<CounterService>(
+  (state) => state[counterService.name].counters
 );
+
+/* -------------------------------------------------------------------------- */
+/*                                    type                                    */
+/* -------------------------------------------------------------------------- */
+export type CounterService = {
+  [counterService.name]: ReturnType<(typeof counterService)['reducer']>;
+};

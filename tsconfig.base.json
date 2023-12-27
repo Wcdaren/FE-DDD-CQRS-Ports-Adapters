@@ -38,6 +38,7 @@
       "@castlery/modules/user/service": [
         "libs/modules/user/service/src/index.ts"
       ],
+      "@castlery/shared/redux/core": ["libs/shared/redux/core/src/index.ts"],
       "@castlery/shared/redux/pos": ["libs/shared/redux/pos/src/index.ts"],
       "@castlery/shared/redux/web": ["libs/shared/redux/web/src/index.ts"]
     }

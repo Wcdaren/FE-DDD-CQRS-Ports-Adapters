@@ -1,52 +1,50 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSliceWithThunks } from '@castlery/shared/redux/core';
+import type { ExtraArgument } from '@castlery/shared/redux/pos';
 // import { useLoginMutation, userApi } from '../services/userApi';
-
-// type xx = typeof userApi;
-export const login = createAsyncThunk(
-  'user/login',
-  async (
-    { username, password },
-    { getState, dispatch, rejectWithValue, extra: { userApi, country } }
-  ) => {
-    console.log(`==============>pro`)
-    console.log(process.env.NEXT_PUBLIC_API_HOST)
-
-    // console.log('🚀 ~ file: UserDomainService.ts:11 ~ country:', country);
-    // let response;
-    // try {
-    //   response = await dispatch(
-    //     userApi.endpoints.login.initiate({
-    //       username,
-    //       password,
-    //     })
-    //   );
-    //   console.log('🚀 ~ file: UserDomainService.ts:15 ~ response:', response);
-    // } catch (error) {
-    //   console.log(`==============>error`);
-    //   console.log(error);
-    // }
-    // return response;
-  }
-);
 
 // reducer
 
-const user = createSlice({
-  name: 'user',
+const userSlice = createSliceWithThunks({
+  name: 'userSlice',
   initialState: { name: '', age: 20 },
-  reducers: {
-    setUserName: (state, action) => {
-      state.name = action.payload; // mutate the state all you want with immer
-    },
-  },
-  extraReducers: (builder) => {
-    // builder.addMatcher(
-    // userApi.endpoints.login.matchFulfilled,
-    // (state, { payload }) => {
-    //   console.log('🚀 ~ file: UserDomainService.ts:42 ~ payload:', payload);
-    // }
-    // );
+  reducers: (create) => {
+    return {
+      login: create.asyncThunk(
+        async (
+          { username, password },
+          { dispatch, extra, rejectWithValue, fulfillWithValue }
+        ) => {
+          const { userApi, cookies } = extra as ExtraArgument;
+          const { data, error } = await dispatch(
+            userApi.login({
+              username,
+              password,
+            })
+          );
+          if (error) {
+            rejectWithValue(error);
+            return;
+          }
+          const {
+            access_token,
+            refresh_token,
+            created_at,
+            expires_in,
+            token_type,
+          } = data;
+          cookies.set('access_token', access_token, {
+            expires: expires_in,
+          });
+          cookies.set('refresh_token', refresh_token, {
+            expires: expires_in,
+          });
+          fulfillWithValue(data);
+        }
+      ),
+    };
   },
 });
 
-export default user.reducer;
+export const { login } = userSlice.actions;
+
+export default userSlice.reducer;

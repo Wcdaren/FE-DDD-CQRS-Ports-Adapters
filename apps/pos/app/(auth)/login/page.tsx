@@ -16,10 +16,7 @@ import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
 import { login } from '@castlery/modules/user/domain';
 import { useAppDispatch } from '@castlery/shared/redux/pos';
-// import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
-// import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
-// import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
-// import GoogleIcon from './GoogleIcon';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -64,7 +61,9 @@ function ColorSchemeToggle(props: IconButtonProps) {
 }
 
 export default function JoySignInSideTemplate() {
-  let dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   return (
     <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
       <CssBaseline />
@@ -183,7 +182,7 @@ export default function JoySignInSideTemplate() {
             </Divider>
             <Stack gap={4} sx={{ mt: 2 }}>
               <form
-                onSubmit={(event: React.FormEvent<SignInFormElement>) => {
+                onSubmit={async (event: React.FormEvent<SignInFormElement>) => {
                   event.preventDefault();
                   const formElements = event.currentTarget.elements;
                   const data = {
@@ -191,7 +190,12 @@ export default function JoySignInSideTemplate() {
                     password: formElements.password.value,
                     // persistent: formElements.persistent.checked,
                   };
-                  dispatch(login(data));
+                  const res = await dispatch(login(data));
+                  console.log(`==============>res`);
+                  console.log(res);
+                  const callbackUrl = searchParams.get('callbackUrl');
+                  console.log("🚀 ~ file: page.tsx:197 ~ onSubmit={ ~ callbackUrl:", callbackUrl)
+                  router.push(callbackUrl || '/dashboard');
                   // useLoginMutation({});
                 }}
               >
