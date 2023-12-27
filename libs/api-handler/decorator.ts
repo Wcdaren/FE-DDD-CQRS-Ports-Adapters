@@ -49,7 +49,7 @@ class DecoratedHook<T> {
       const result = await this.hook(...modifiedArgs);
 
       return result;
-    } catch (error) {
+    } catch (error: {status: number}) {
       if (Object.keys(this.errorHandlers).length > 0 && error.status && this.errorHandlers[error.status]) {
         return this.errorHandlers[error.status](error);
       } else if (this.catchFunction) {
